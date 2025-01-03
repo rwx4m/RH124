@@ -1,0 +1,137 @@
+---
+
+# Monitor and Manage Linux Processes
+
+This guide demonstrates how to locate and manage processes that use the most resources on a Linux system.
+
+## Outcomes
+
+- Learn to manage processes using the `top` command.
+- Understand how to create a script to simulate CPU load.
+
+---
+
+## Prerequisites
+
+1. Log in to the `workstation` machine using:
+   ```bash
+   username: student  
+   password: student
+   ```
+2. Start the lab environment by running:
+   ```bash
+   lab start processes-review
+   ```
+
+---
+
+## Steps to Monitor and Manage Processes
+
+### 1. Open Terminals and Log In
+
+- Open two terminal windows side-by-side:
+  - Terminal 1: referred to as **Left Terminal**.
+  - Terminal 2: referred to as **Right Terminal**.
+
+- Log in to `serverb` as the `student` user in **both terminals**:
+  ```bash
+  ssh student@serverb
+  ```
+
+---
+
+### 2. Create the `process101` Script
+
+#### Left Terminal:
+1. Create a directory for the script:
+   ```bash
+   mkdir -p /home/student/bin
+   ```
+
+2. Create the `process101` script using Vim:
+   ```bash
+   vim /home/student/bin/process101
+   ```
+
+   **Script Content:**
+   ```bash
+   #!/bin/bash
+   while true; do
+     var=1
+     while [[ var -lt 50000 ]]; do
+       var=$(($var+1))
+     done
+     sleep 1
+   done
+   ```
+
+3. Save and exit Vim by pressing `Esc`, then type `:wq`.
+
+4. Make the script executable:
+   ```bash
+   chmod +x /home/student/bin/process101
+   ```
+
+---
+
+### 3. Monitor Processes Using `top`
+
+#### Right Terminal:
+1. Run the `top` command:
+   ```bash
+   top
+   ```
+
+2. Resize the terminal window for better readability.
+
+---
+
+### 4. Run the `process101` Script
+
+#### Left Terminal:
+1. Verify the number of logical CPUs:
+   ```bash
+   grep "model name" /proc/cpuinfo | wc -l
+   ```
+
+2. Navigate to the script directory:
+   ```bash
+   cd /home/student/bin
+   ```
+
+3. Run the `process101` script in the background:
+   ```bash
+   ./process101 &
+   ```
+
+---
+
+### 5. Observe the Process in `top`
+
+#### Right Terminal:
+1. In the `top` display, observe the **PID** and **CPU usage** of the `process101` process.
+   - The CPU usage should hover around **10% to 15%**.
+
+2. Use the following key commands to toggle views in `top`:
+   - **Shift + m**: Memory usage view.
+   - **Shift + p**: CPU usage view.
+   - **m**: Detailed memory breakdown.
+   - **t**: Threads overview.
+
+3. Return to CPU usage by pressing **Shift + p**.
+
+---
+
+### Notes
+
+- Adjust the `top` display to suit your observation needs.
+- To stop the `process101` process, switch back to the left terminal and terminate the process:
+  ```bash
+  kill <PID>
+  ```
+
+---
+
+This concludes the lab exercise on monitoring and managing Linux processes. Happy learning! 🎉
+
+---
