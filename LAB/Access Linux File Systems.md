@@ -1,4 +1,4 @@
-```markdown
+
 # Lab: Access Linux File Systems
 
 In this lab, you will learn how to mount a local file system and locate specific files within that file system.
